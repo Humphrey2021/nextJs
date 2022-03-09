@@ -15,6 +15,9 @@ export default function Home() {
       <img style={{ width: '50px' }} src="/images/pic.jpg"></img>
       <p className={styles.demo}>这是一段文字</p>
     </div>
+    <Link href="/components/Footer/footer">
+      <a className="demo" title="list page">jump to footer page</a>
+    </Link>
     <style jsx>{`
       .demo {
           color: red;

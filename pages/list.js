@@ -5,7 +5,7 @@ import { join } from 'path'
 
 const read = promisify(readFile)
 
-export default function List({data}) {
+export default function List({ data }) {
     return (
         <>
             <Head>
@@ -17,11 +17,11 @@ export default function List({data}) {
     )
 }
 
-// export async function getStaticProps() {
-export async function getServerSideProps(context) {
-    console.log(context.query)
+export async function getStaticProps() {
+// export async function getServerSideProps(context) {
+    // console.log(context.query)
     let data = await read(join(process.cwd(), 'pages', '_app.js'), 'utf-8')
-    console.log('hello')
+    console.log(data, 'hello')
     return {
         props: {
             data
