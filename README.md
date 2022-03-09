@@ -156,10 +156,93 @@ getStaticProps方法的作用是获取组件静态生成需要的数据，并通
 ```js
 export async function getStaticProps() {
     // 从文件系统，API，数据库中获取的数据
-    const data = ...
+    const data = ...await
     // props 属性的值将会传递给组件
     return {
         props: ...
     }
 }
 ```
+
+- __服务器端渲染 getServerSideProps__
+
+如果采用服务器端渲染，需要在组件中导出`getServerSideProps`方法
+
+```js
+export async function getServerSideProps(context) {
+    // context 中会包含特定的请求参数
+    return {
+        props: {
+            // props for your component
+        }
+    }
+}
+```
+
+- __基于动态路由的静态生成__
+
+基于参数为页面组件生成 HTML 页面，有多少参数就生成多少 HTML 页面
+在构建应用时，先获取用户可以访问的所有路由参数，再根据路由参数获取具体数据，然后根据数据生成静态 HTML
+
+> 实现基于动态路由的静态生成
+
+1. 创建基于动态路由的页面组件文件，命名时再文件名称外面加上`[]`,比如`[id].js`
+2. 导出异步函数`getStaticPaths`，用于获取所有用户可以访问的路由参数
+```js
+export async function getStaticPaths() {
+    // 此处获取所有用户可以访问的路由参数
+    return {
+        // 返回固定格式的路由参数
+        paths: [ { params: { id: 1 } }, { params: { id: 2 } } ],
+        // 当用户访问的路由参数没有在当前函数中返回时，是否显示404页面
+        // false: 显示  true: 不显示
+        fallback: false
+    }
+}
+```
+3. 导出异步函数`getStaticProps`，用于根据路由参数获取具体的数据
+```js
+export async function getStaticProps({params}) {
+    // params ---> {id: 1}
+    // 此处根据路由参数获取具体数据
+    return {
+        // 将数据传递到组件中进行静态页面的生成
+        props: {}
+    }
+}
+```
+> 注：getStaticPaths和getStaticProps只运行在服务器端，永远不会运行在客户端，甚至不会被打包到客户端JavaScript中，意味着这里可以随意写服务器端代码，比如查询数据库。
+
+- __自定义404页面__
+
+要创建自定义404页面，需要在`pages`文件夹中创建`404.js`文件。
+
+```js
+export default function Custom404() {
+    return <h1>404 - Page Not Found</h1>
+}
+```
+
+### API Routes
+
+- __什么是 API Routes?__
+
+API Routes 可以理解为接口，客户端想服务器端发送请求获取数据的接口。
+Next.js 应用允许 React 开发者编写服务器端代码创建数据接口。
+
+- __如何实现 API Routes__
+
+1. 在`pages/api`文件夹中创建`API Routes`文件，比如`user.js`
+2. 在文件中默认导出请求处理函数，函数有两个参数，`req`为请求对象，`res`为响应对象。
+
+```js
+export default function (req, res) {
+    res.status(200).send({ id: 1, name: 'Tom' })
+}
+```
+> 注：当前 API Routes 可以接收任何 HTTP 请求方法
+
+3. 访问 API Routes: localhost:3000/api/user
+
+> 不要在 getStaticPaths 或 getStaticProps 函数中访问 API Routes，因为这两个函数就是在服务器端运行的，可以直接写服务器端代码。
+
