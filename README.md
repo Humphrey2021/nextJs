@@ -246,3 +246,4 @@ export default function (req, res) {
 
 > 不要在 getStaticPaths 或 getStaticProps 函数中访问 API Routes，因为这两个函数就是在服务器端运行的，可以直接写服务器端代码。
 
+
