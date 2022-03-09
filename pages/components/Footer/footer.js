@@ -19,8 +19,8 @@ function Linklist(props) {
 }
 // 首页底部组件
 export default function Footer({ data }) {
-  const _data = JSON.parse(data)
-  const linkList = _data.linkList
+  const { linkList } = JSON.parse(data)
+  console.log(linkList)
   // const linkList = [
   //   { "id": 1, "name": "zs" },
   //   { "id": 2, "name": "ls" },
