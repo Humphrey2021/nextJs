@@ -13,13 +13,14 @@ function Linklist(props) {
     return <ul>{listItems}</ul>
 }
 // 首页底部组件
-export default function Footer() {
-    const linkList = [
-        { id: 1, name: 'zs'  },
-        { id: 2, name: 'ls'  },
-        { id: 3, name: 'ww'  },
-        { id: 4, name: 'zl'  },
-    ]
+export default function Footer({ data }) {
+    const linkList = data.linkList
+    // const linkList = [
+    //     { id: 1, name: 'zs' },
+    //     { id: 2, name: 'ls' },
+    //     { id: 3, name: 'ww' },
+    //     { id: 4, name: 'zl' },
+    // ]
     return (
         <>
             {/* Footer 标签，添加背景色，设置上下padding */}
@@ -41,4 +42,11 @@ export default function Footer() {
             </Footer>
         </>
     )
+}
+
+// 静态生成文件 有数据模式
+export async function getStaticProps() {
+    // 获取友链等等底部动态数据
+    const data = await api.getFooterDate()
+    return { props: { data } }
 }
