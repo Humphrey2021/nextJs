@@ -48,6 +48,7 @@ pages/post/first.js     /post/first
 import Link from 'next/link'
 <Link href="/list">
     <a title="list page">list page</a>
+</Link>
 ```
 ### 静态资源、元数据和 CSS
 #### 静态资源
