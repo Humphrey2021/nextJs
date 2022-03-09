@@ -1,9 +1,15 @@
-import { readFile } from 'fs'
-import { promisify } from 'util'
-const path = require('path')
-import { join } from 'path'
+// import { readFile } from 'fs'
+// import { promisify } from 'util'
+// import { join } from 'path'
+// import { linkList } from './footer.json'
+const data = require('./footer.json')
+// console.log(jsonData)
+// fetch('./footer.json')
+//   .then((data) => {
+//     console.log('data:', data);
+//   })
 
-const read = promisify(readFile)
+// const read = promisify(readFile)
 
 function LinkListItem(props) {
   const link = props.link
@@ -18,9 +24,11 @@ function Linklist(props) {
   return <ul>{listItems}</ul>
 }
 // 首页底部组件
-export default function Footer({ data }) {
-  const { linkList } = JSON.parse(data)
-  console.log(linkList)
+// export default function Footer({ data }) {
+export default function Footer() {
+  const { linkList } = data
+  // const { linkList } = JSON.parse(data)
+  // console.log(linkList)
   // const linkList = [
   //   { "id": 1, "name": "zs" },
   //   { "id": 2, "name": "ls" },
@@ -51,10 +59,10 @@ export default function Footer({ data }) {
 }
 
 // 静态生成文件 有数据模式
-export async function getStaticProps() {
-  // 获取友链等等底部动态数据,接口获取
-  // const data = await api.getFooterDate()
-  // 如果数据是死数据，可以创建一个 JSON 文件，然后读取这个 JSON 文件，自动渲染
-  const data = await read(join(process.cwd(), 'pages/components/Footer', 'footer.json'), 'utf-8')
-  return { props: { data } }
-}
+// export async function getStaticProps() {
+//   // 获取友链等等底部动态数据,接口获取
+//   // const data = await api.getFooterDate()
+//   // 如果数据是死数据，可以创建一个 JSON 文件，然后读取这个 JSON 文件，自动渲染
+//   const data = await read(join(process.cwd(), 'pages/components/Footer', 'footer.json'), 'utf-8')
+//   return { props: { data } }
+// }
